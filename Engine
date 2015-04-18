@@ -1,0 +1,133 @@
+package Game;
+
+
+import java.awt.EventQueue;
+import javax.swing.JFrame;
+
+
+
+public class Engine {
+
+	public static JFrame frame;
+	public static gamePanel gamePanel1;
+	public static menuPanel menuPanel1;
+	public static LoginPanel loginPanel1;
+	public static SelectionPanel selectionPanel1;
+	public static ServerPanel serverPanel1;
+	public static ClientPanel clientPanel1;
+	
+	public static void main(String[] args) {
+		
+		
+
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Engine window = new Engine();
+					window.frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+
+		
+	}
+
+	
+	public Engine() {
+		initialize();
+	}
+
+	
+	private void initialize() {
+		frame = new JFrame();
+		frame.getContentPane().setEnabled(false);
+		frame.setBounds(100, 100, 600, 491);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		menuPanel1=new menuPanel();
+		frame.add(menuPanel1);
+		
+	}
+	
+	public static void changeState(int x)
+	{
+		switch(x)
+		{
+			case 0:
+				frame.remove(gamePanel1);
+				menuPanel1=new menuPanel();
+				frame.add(menuPanel1);
+				frame.validate();
+				frame.repaint();
+				
+			break;
+			
+			case 1:
+				frame.remove(menuPanel1);
+				gamePanel1=new gamePanel();
+				frame.add(gamePanel1);
+				frame.validate();
+				frame.repaint();
+			break;
+			
+			case 2:
+				frame.remove(menuPanel1);
+				loginPanel1 = new LoginPanel();
+				frame.add(loginPanel1);
+				frame.validate();
+				frame.repaint();
+			break;	
+			
+			case 3:
+				frame.remove(loginPanel1);
+				menuPanel1=new menuPanel();
+				frame.add(menuPanel1);
+				frame.validate();
+				frame.repaint();
+			break;
+			
+			case 4:
+				frame.remove(loginPanel1);
+				selectionPanel1=new SelectionPanel();
+				frame.add(selectionPanel1);
+				frame.validate();
+				frame.repaint();
+			break;
+			
+			case 5:
+				frame.remove(selectionPanel1);
+				menuPanel1=new menuPanel();
+				frame.add(loginPanel1);
+				frame.validate();
+				frame.repaint();
+			break;
+			
+			case 6:
+				frame.remove(selectionPanel1);
+				serverPanel1=new ServerPanel();
+				frame.add(serverPanel1);
+				frame.validate();
+				frame.repaint();
+				
+				Thread t1 = new Thread(serverPanel1);
+				t1.start();
+				
+			break;	
+			
+			case 7:
+				frame.remove(selectionPanel1);
+				clientPanel1= new ClientPanel("127.0.0.1");
+				frame.add(clientPanel1);
+				frame.validate();
+				frame.repaint();
+				
+				Thread t2 = new Thread(clientPanel1);
+				t2.start();
+				
+			break;	
+		}
+	}
+	
+}
+
