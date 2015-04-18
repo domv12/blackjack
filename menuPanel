@@ -1,0 +1,75 @@
+package Game;
+
+import java.awt.Graphics;
+import java.awt.Image;
+
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JPanel;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+
+
+
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
+public class menuPanel extends JPanel implements ActionListener {
+		
+	JPanel panel;
+	
+	private JButton SinglePlayer;
+	private JButton MultiPlayer;
+	private JButton Exit;
+	
+	 static final long serialVersionUID = 1L;
+	 
+	public menuPanel() {
+		setLayout(null);
+		
+		panel = new JPanel();
+		panel.setBounds(0, 0, 600, 451);
+		add(panel);
+		panel.setLayout(null);
+		
+		SinglePlayer = new JButton("Single Player");
+		SinglePlayer.setBounds(79, 417, 114, 23);
+		panel.add(SinglePlayer);
+		
+		MultiPlayer = new JButton("Multi Player");
+		MultiPlayer.setBounds(245, 417, 114, 23);
+		panel.add(MultiPlayer);
+		
+		Exit = new JButton("Exit");
+		Exit.setBounds(421, 417, 70, 23);
+		panel.add(Exit);
+		
+		JLabel label = new JLabel("");
+		label.setIcon(new ImageIcon(menuPanel.class.getResource("/img/Blackjack_background.jpg")));
+		label.setBounds(0, -20, 600, 491);
+		panel.add(label);
+		
+		
+		SinglePlayer.addActionListener(this);
+	    MultiPlayer.addActionListener(this);
+	    Exit.addActionListener(this);
+		
+	}
+	
+	public void actionPerformed(ActionEvent e) {
+		if(e.getSource()==Exit){
+			System.exit(0);
+		}
+		if(e.getSource()==SinglePlayer){
+	
+			Engine.changeState(1);
+			
+
+		}
+		if(e.getSource()==MultiPlayer){
+			Engine.changeState(2);
+		}
+	}
+	
+	
+}
