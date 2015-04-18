@@ -1,0 +1,69 @@
+package Game;
+
+import javax.swing.JPanel;
+
+import java.awt.Color;
+
+import javax.swing.JLabel;
+
+import java.awt.Font;
+
+
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
+public class SelectionPanel extends JPanel {
+
+	public SelectionPanel() {
+		setLayout(null);
+		
+		JPanel panel = new JPanel();
+		panel.setBackground(Color.GREEN);
+		panel.setBounds(0, 0, 600, 451);
+		add(panel);
+		panel.setLayout(null);
+		
+		JLabel lblNewLabel = new JLabel("Chesz stwozyc nowy serwer czy dolaczyc do juz istniejacego?");
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblNewLabel.setBounds(24, 87, 552, 75);
+		panel.add(lblNewLabel);
+		
+		JLabel lblNewLabel_1 = new JLabel("WITAJ GRACZU !");
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 47));
+		lblNewLabel_1.setBounds(113, 26, 368, 50);
+		panel.add(lblNewLabel_1);
+		
+		JButton btnNewButton = new JButton("Stworz serwer ");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Engine.changeState(6);
+			}
+		});
+		btnNewButton.setBounds(96, 173, 140, 23);
+		panel.add(btnNewButton);
+		
+		JButton btnNewButton_1 = new JButton("Szukaj serwera");
+		btnNewButton_1.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				Engine.changeState(7);
+			}
+		});
+		btnNewButton_1.setBounds(378, 173, 140, 23);
+		panel.add(btnNewButton_1);
+		
+		JButton btnNewButton_2 = new JButton("Powrot");
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			
+			Engine.changeState(5);
+			
+			}
+		});
+		btnNewButton_2.setBounds(487, 417, 89, 23);
+		panel.add(btnNewButton_2);
+
+	}
+
+	
+}
