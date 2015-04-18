@@ -1,0 +1,163 @@
+package Game;
+
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
+
+public class gamePanel extends JPanel implements ActionListener {
+
+	public static JPanel panel;
+	
+	private static final long serialVersionUID = 1L;
+	private Deck deck;
+    public Player player = new Player("player");
+    public Player dealer = new Player("dealer");
+
+    private JButton jbtnHit = new JButton("Dobierz");
+    private JButton jbtnStay = new JButton("Stop");
+    private JButton jbtnDeal = new JButton("Rozdaj");
+    private JButton jbtnBack = new JButton("Powrot");
+
+    private JLabel jlblStatus = new JLabel(" ", JLabel.CENTER);
+
+    JPanel playerPanel = new JPanel();
+    JPanel dealerPanel = new JPanel();
+    JPanel buttonsPanel = new JPanel();
+    JPanel statusPanel = new JPanel();
+	
+	public gamePanel() {
+		setLayout(null);
+		
+		panel = new JPanel();
+		panel.setBounds(0, 0, 600, 451);
+		add(panel);
+		
+		  buttonsPanel.add(jbtnHit);
+	      buttonsPanel.add(jbtnStay);
+	      buttonsPanel.add(jbtnDeal);
+	      buttonsPanel.add(jbtnBack);
+	      statusPanel.add(jlblStatus);
+	      
+	      jbtnHit.addActionListener(this);
+	      jbtnStay.addActionListener(this);
+	      jbtnDeal.addActionListener(this);
+	      jbtnBack.addActionListener(this);
+
+	      jbtnHit.setEnabled(false);
+	      jbtnStay.setEnabled(false);
+
+	      dealerPanel.setBackground(Color.GREEN);
+	      playerPanel.setBackground(Color.GREEN);
+	      buttonsPanel.setBackground(Color.GREEN);
+	      statusPanel.setBackground(Color.GREEN);
+	      
+	      panel.setLayout(new BorderLayout());
+	      panel.add(dealerPanel, BorderLayout.NORTH);
+	      panel.add(playerPanel, BorderLayout.CENTER);
+	      panel.add(buttonsPanel, BorderLayout.SOUTH);
+	      panel.add(statusPanel, BorderLayout.WEST);
+	      panel.repaint();
+	    
+
+	}
+
+	 private void hitPlayer() {
+	        Card newCard = player.dealTo(deck.dealFrom());
+	        playerPanel.add(new JLabel(new ImageIcon("src/img/" + newCard.toString())));
+	        playerPanel.updateUI();
+	    }
+
+	    private void hitDealerDown() {
+	        Card newCard = dealer.dealTo(deck.dealFrom());
+	        dealerPanel.add(new JLabel(new ImageIcon("src/img/b2fv.png")));
+	        dealerPanel.updateUI();
+	    }
+
+	    private void hitDealer() {
+	        Card newCard = dealer.dealTo(deck.dealFrom());
+	        dealerPanel.add(new JLabel(new ImageIcon("src/BlackJack/img/" + newCard.toString())));
+	        dealerPanel.updateUI();
+	    }
+
+	    private void deal() {
+	        playerPanel.removeAll();
+	        dealerPanel.removeAll();
+	        playerPanel.updateUI();
+	        dealerPanel.updateUI();
+	        player.reset();
+	        dealer.reset();
+	        if (deck == null || deck.size() < 15) {
+	            deck = new Deck();
+	            deck.shuffle();
+	            jlblStatus.setText("Shuffling");
+	        }
+	        hitPlayer();
+	        hitDealerDown();
+	        hitPlayer();
+	        hitDealer();
+	    }
+
+	    private void checkWinner() {
+	    	
+	        dealerPanel.removeAll();
+	        for (int i = 0; i < dealer.inHand(); i++) {
+	            dealerPanel.add(new JLabel(new ImageIcon("src/img/" + dealer.cards[i].toString())));
+	        }
+	        
+	       // jlblStatus.setText(Integer.toString(player.value()));
+	         
+	        if (player.value() > 21) {
+	            jlblStatus.setText("Fura Gracza");
+	        } else if (dealer.value() > 21) {
+	            jlblStatus.setText("Fura Dilera");
+	        } else if (dealer.value() == player.value()) {
+	            jlblStatus.setText("Remis");
+	        } else if (dealer.value() < player.value()) {
+	            jlblStatus.setText("Wygral Gracz");
+	        } else {
+	            jlblStatus.setText("Wygral Diler");
+	        }
+	    }
+
+	    public void actionPerformed(ActionEvent e) {
+	        if (e.getSource() == jbtnHit) {
+	            hitPlayer();
+	            if (player.value() > 21) {
+	                checkWinner();
+	                jbtnHit.setEnabled(false);
+	                jbtnStay.setEnabled(false);
+	                jbtnDeal.setEnabled(true);
+	            }
+	            if(player.value()<=21){
+	            jlblStatus.setText(Integer.toString(player.value()));}
+	        }
+
+	        if (e.getSource() == jbtnStay) {
+	            while (dealer.value() < 17 || player.value() > dealer.value()) {
+	                hitDealer();
+	            }
+	            checkWinner();
+	            jbtnHit.setEnabled(false);
+	            jbtnStay.setEnabled(false);
+	            jbtnDeal.setEnabled(true);
+	        }
+
+	        if (e.getSource() == jbtnDeal) {
+	            deal();
+	            jlblStatus.setText(Integer.toString(player.value()));
+	            jbtnHit.setEnabled(true);
+	            jbtnStay.setEnabled(true);
+	            jbtnDeal.setEnabled(false);
+	        }
+	        if(e.getSource() == jbtnBack){
+	        	Engine.changeState(0);
+	        }
+	    }
+}
