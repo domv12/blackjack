@@ -1,0 +1,91 @@
+package Game;
+
+import javax.swing.ImageIcon;
+import javax.swing.JPanel;
+import javax.swing.JLabel;
+
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.SystemColor;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JTextField;
+import javax.swing.JPasswordField;
+import javax.swing.JButton;
+
+public class LoginPanel extends JPanel implements ActionListener {
+	
+	JPanel panel;
+	private JTextField textField;
+	private JPasswordField passwordField;
+	JButton btnPowrot;
+	JButton btnNewButton;
+	
+	public LoginPanel() {
+		setLayout(null);
+		
+		panel = new JPanel();
+		panel.setBackground(Color.GREEN);
+		panel.setBounds(0, 0, 600, 451);
+		add(panel);
+		panel.setLayout(null);
+		
+		JLabel lblNewLabel = new JLabel("ZALOGUJ SIE");
+		lblNewLabel.setFont(new Font("Traditional Arabic", Font.BOLD | Font.ITALIC, 53));
+		lblNewLabel.setForeground(Color.BLACK);
+		lblNewLabel.setBounds(113, 11, 359, 108);
+		panel.add(lblNewLabel);
+		
+		textField = new JTextField();
+		textField.setBounds(206, 208, 186, 42);
+		panel.add(textField);
+		textField.setColumns(10);
+		
+		passwordField = new JPasswordField();
+		passwordField.setBounds(206, 305, 186, 42);
+		panel.add(passwordField);
+		
+		JLabel lblNewLabel_1 = new JLabel("LOGIN");
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 44));
+		lblNewLabel_1.setBounds(206, 160, 186, 42);
+		panel.add(lblNewLabel_1);
+		
+		JLabel lblNewLabel_2 = new JLabel("HASLO");
+		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 44));
+		lblNewLabel_2.setBounds(206, 261, 186, 42);
+		panel.add(lblNewLabel_2);
+		
+		btnNewButton = new JButton("LOGUJ");
+		btnNewButton.setBounds(249, 366, 89, 23);
+		panel.add(btnNewButton);
+		
+		btnPowrot = new JButton("Powrot");
+		btnPowrot.setBounds(482, 417, 89, 23);
+		panel.add(btnPowrot);
+
+		
+		btnPowrot.addActionListener(this);
+		btnNewButton.addActionListener(this);
+		
+		
+		Zegar zegar = new Zegar();
+		zegar.setLocation(442, 339);
+		zegar.setSize(148, 50);
+		panel.add(zegar);
+		zegar.start();
+	}
+
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if(e.getSource()==btnPowrot)
+		{
+			Engine.changeState(3);
+		}
+		if(e.getSource()==btnNewButton){
+			Engine.changeState(4);
+		}
+		
+	}
+}
